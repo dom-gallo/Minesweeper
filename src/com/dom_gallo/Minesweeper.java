@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Minesweeper {
     private Board gameBoard;
     protected GameState CurrentState;
-    Scanner sc;
+    private Scanner sc;
     public Minesweeper(int numOfRows, int numOfColumns)
     {
         this.gameBoard = new Board(numOfRows, numOfColumns);
