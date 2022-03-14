@@ -24,7 +24,7 @@ public class Board {
             this.gameBoard.add(i, new ArrayList<>());
             for (int j = 0; j < numOfRows; j++)
             {
-                TwoDimPoint newPoint = new TwoDimPoint(i, j);
+                TwoDimPoint newPoint = new TwoDimPoint(j, i);
                 this.gameBoard.get(i).add(j, newPoint);
             }
         }
@@ -50,15 +50,17 @@ public class Board {
         System.out.println("-|---------|");
     }
 
-    public int getNumOfMines() {
+    public int getNumOfMines()
+    {
         return numOfMines;
     }
 
-    public void setNumOfMines(int numOfMines) {
+    public void setNumOfMines(int numOfMines)
+    {
         this.numOfMines = numOfMines;
     }
     public TwoDimPoint getPointAt(int x, int y)
     {
-        return this.gameBoard.get(x).get(y);
+        return this.gameBoard.get(y).get(x);
     }
 }
