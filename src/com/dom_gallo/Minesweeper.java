@@ -52,14 +52,15 @@ public class Minesweeper {
     public void handleFirstMove()
     {
         System.out.println("Set/unset mines marks or claim a cell as free: ");
-        int xCoordinate = sc.nextInt() - 1;
+        int xCoordinateIndex = sc.nextInt() - 1;
 
-        int yCoordinate = sc.nextInt() - 1;
+        int yCoordinateIndex = sc.nextInt() - 1;
 
-        String command = sc.next();
+        String commandString = sc.next().toUpperCase();
+        PlayerAction command = PlayerAction.valueOf(commandString);
 
-
-        this.gameBoard.getPointAt(xCoordinate, yCoordinate).toggleIsExplored();
+        this.gameBoard.doCommandAt(command, xCoordinateIndex, yCoordinateIndex);
+        this.gameBoard.addBombsToBoard();
         // Put bombs on the board
         // this.gameBoard.addBombsToBoard();
     }

@@ -2,7 +2,8 @@ package com.dom_gallo;
 
 import java.util.ArrayList;
 
-public class TwoDimPoint {
+public class TwoDimPoint
+{
     private int x;
     private int y;
     private String value;
@@ -19,39 +20,54 @@ public class TwoDimPoint {
         this.isMarked = false;
         this.isExplored = true;
     }
-//    public TwoDimPoint(int x, int y, String value)
-//    {
-//        this(x,y);
-//        if (value != null)
-//        {
-//            this.value = value;
-//        } else
-//        {
-//            this.value  = "";
-//        }
-//
-//    }
-//    public TwoDimPoint(int x, int y, int value)
-//    {
-//        this(x,y);
-//        this.value = String.valueOf(value);
-//    }
 
     public ArrayList<TwoDimPoint> getPointsSurrounding(Board gameBoard)
     {
         ArrayList<TwoDimPoint> pointsSurrounding = new ArrayList<TwoDimPoint>();
 
-        // Find raw coordinates of points surround this object
-        // Search Board for those point objects
-        // add to array list and return
+        int startingX = this.getXIndex() - 1;
+        int startingY = this.getYIndex() - 1;
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                // We do not need to check ourselves.
+                if (startingY == i && startingX == j)
+                {
+                    continue;
+                }
+                int newX = startingX + i;
+                int newY = startingY + j;
+
+                // this protects against going out of bounds when finding surrounding points.
+                if (this.isIndexOutOfBounds(gameBoard.getNumOfRows(), gameBoard.getNumOfColumns(), newX, newY))
+                {
+                    continue;
+                }
+                TwoDimPoint adjacentPoint = gameBoard.getPointAt(newX, newY;
+                pointsSurrounding.add(adjacentPoint);
+            }
+        }
         return pointsSurrounding;
+
+    }
+    private boolean isIndexOutOfBounds(int numOfRows, int numOfColumns, int x, int y)
+    {
+        if (x < 0 || x > numOfRows - 1 || y < 0 || y > numOfColumns - 1)
+        {
+            return true;
+        }
+        return false;
     }
 
-    public int getX() {
+    public int getX()
+    {
         return x + 1;
     }
 
-    public int getY() {
+    public int getY()
+    {
         return y + 1;
     }
     public int getXIndex()
@@ -63,7 +79,8 @@ public class TwoDimPoint {
         return y;
     }
 
-    public String getValue() {
+    public String getValue()
+    {
         return value;
     }
     public boolean isMarked()
@@ -92,7 +109,7 @@ public class TwoDimPoint {
     {
         this.value = val;
     }
-    public void setBomb(){
+    public void setAsBomb(){
         this.setValue("X");
         this.isMarked = true;
     }

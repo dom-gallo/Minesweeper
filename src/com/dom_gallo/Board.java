@@ -3,11 +3,13 @@ package com.dom_gallo;
 import java.util.ArrayList;
 
 public class Board {
+
     private ArrayList<ArrayList<TwoDimPoint>> gameBoard = new ArrayList<ArrayList<TwoDimPoint>>();
+    private ArrayList<TwoDimPoint> bombLocations = new ArrayList<>();
+
+
     private int numOfRows;
     private int numOfColumns;
-
-
     private int numOfMines;
 
     public Board(int numOfRows, int numOfColumns)
@@ -31,7 +33,32 @@ public class Board {
     }
     public void addBombsToBoard()
     {
+        int minesAdded = 0;
+        outerloop:
+        while (getNumOfMines() > minesAdded)
+        {
+            for (int i = 0; i < this.numOfRows; i++)
+            {
+                for (int j =0; j < this.numOfColumns; j++)
+                {
+                    TwoDimPoint currentPoint = this.getPointAt(j, i);
+                    if (Math.random() * 10 < 1 && !currentPoint.getValue().equalsIgnoreCase("X"))
+                    {
+                        if (getNumOfMines() == minesAdded)
+                        {
+                            break outerloop;
+                        }
+                        currentPoint.setAsBomb();
+                        this.bombLocations.add(currentPoint);
 
+
+
+
+                        minesAdded++;
+                    }
+                }
+            }
+        }
     }
     public void print()
     {
@@ -49,6 +76,18 @@ public class Board {
         }
         System.out.println("-|---------|");
     }
+    public void doCommandAt(PlayerAction command, int xCoordinateIndex, int yCoordinateIndex)
+    {
+        TwoDimPoint point = this.getPointAt(xCoordinateIndex, yCoordinateIndex);
+
+        if (command == PlayerAction.FREE)
+        {
+            point.toggleIsExplored();
+        } else if (command == PlayerAction.MINE )
+        {
+
+        }
+    }
 
     public int getNumOfMines()
     {
@@ -62,5 +101,13 @@ public class Board {
     public TwoDimPoint getPointAt(int x, int y)
     {
         return this.gameBoard.get(y).get(x);
+    }
+
+    public int getNumOfRows() {
+        return numOfRows;
+    }
+
+    public int getNumOfColumns() {
+        return numOfColumns;
     }
 }
