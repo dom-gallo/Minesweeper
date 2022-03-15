@@ -31,6 +31,11 @@ public class Board {
             }
         }
     }
+
+    /**
+     * TODO: Change method so a bomb cannot be placed at the initial moves location
+     *
+     */
     public void addBombsToBoard()
     {
         int minesAdded = 0;
@@ -83,13 +88,7 @@ public class Board {
         if (command == PlayerAction.FREE)
         {
             point.toggleIsExplored();
-            ArrayList<TwoDimPoint> points = point.getPointsSurrounding(this);
 
-            for (TwoDimPoint currentPoint :
-                    points) {
-//                System.out.println("X:"+currentPoint.getX()+" Y:"+currentPoint.getY());
-                currentPoint.setValue("T");
-            }
         } else if (command == PlayerAction.MINE )
         {
 

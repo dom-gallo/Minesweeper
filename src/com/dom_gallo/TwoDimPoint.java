@@ -18,7 +18,7 @@ public class TwoDimPoint
         this.value = ".";
         this.isBomb = false;
         this.isMarked = false;
-        this.isExplored = true;
+        this.isExplored = false;
     }
 
     public ArrayList<TwoDimPoint> getPointsSurrounding(Board gameBoard)
