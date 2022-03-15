@@ -83,6 +83,13 @@ public class Board {
         if (command == PlayerAction.FREE)
         {
             point.toggleIsExplored();
+            ArrayList<TwoDimPoint> points = point.getPointsSurrounding(this);
+
+            for (TwoDimPoint currentPoint :
+                    points) {
+//                System.out.println("X:"+currentPoint.getX()+" Y:"+currentPoint.getY());
+                currentPoint.setValue("T");
+            }
         } else if (command == PlayerAction.MINE )
         {
 

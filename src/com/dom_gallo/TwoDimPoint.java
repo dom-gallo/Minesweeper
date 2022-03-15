@@ -25,33 +25,35 @@ public class TwoDimPoint
     {
         ArrayList<TwoDimPoint> pointsSurrounding = new ArrayList<TwoDimPoint>();
 
-        int startingX = this.getXIndex() - 1;
-        int startingY = this.getYIndex() - 1;
+        int startingX = this.getXIndex() - 1; // CONSTANT
+        int startingY = this.getYIndex() - 1; // CONSTANT
 
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
+                int newX = startingX + i;
+                int newY = startingY + j;
+
                 // We do not need to check ourselves.
-                if (startingY == i && startingX == j)
+                if (newX == this.getX() - 1 && newY == this.getY() - 1)
                 {
                     continue;
                 }
-                int newX = startingX + i;
-                int newY = startingY + j;
+
 
                 // this protects against going out of bounds when finding surrounding points.
                 if (this.isIndexOutOfBounds(gameBoard.getNumOfRows(), gameBoard.getNumOfColumns(), newX, newY))
                 {
                     continue;
                 }
-                TwoDimPoint adjacentPoint = gameBoard.getPointAt(newX, newY;
+                TwoDimPoint adjacentPoint = gameBoard.getPointAt(newX, newY);
                 pointsSurrounding.add(adjacentPoint);
             }
         }
         return pointsSurrounding;
-
     }
+
     private boolean isIndexOutOfBounds(int numOfRows, int numOfColumns, int x, int y)
     {
         if (x < 0 || x > numOfRows - 1 || y < 0 || y > numOfColumns - 1)
@@ -105,7 +107,7 @@ public class TwoDimPoint
         this.setValue("/");
 
     }
-    private void setValue(String val)
+    public void setValue(String val)
     {
         this.value = val;
     }
