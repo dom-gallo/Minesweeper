@@ -107,7 +107,7 @@ public class TwoDimPoint
         this.setValue("/");
 
     }
-    public void setValue(String val)
+    private void setValue(String val)
     {
         this.value = val;
     }
