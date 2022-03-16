@@ -26,12 +26,14 @@ public class Minesweeper {
                     this.gameBoard.print();
                     this.handleFirstMove();
                     this.gameBoard.print();
-                    this.setCurrentState(GameState.RUNNING);
+                    System.out.println("FIRST::: Current Game State is : " + this.getCurrentState().toString());
+//                    this.setCurrentState(GameState.RUNNING);
                     break;
                 }
                 case RUNNING -> {
                     this.handleMove();
                     this.gameBoard.print();
+                    System.out.println("RUNNING::: Current Game State is : " + this.getCurrentState().toString());
                     break;
                 }
                 case EXIT -> {
@@ -51,7 +53,24 @@ public class Minesweeper {
 
     public void handleFirstMove()
     {
-        System.out.println("Set/unset mines marks or claim a cell as free: ");
+        this.printInputMessage();
+        int xCoordinateIndex = sc.nextInt() - 1;
+        int yCoordinateIndex = sc.nextInt() - 1;
+
+        String commandString = sc.next().toUpperCase();
+        PlayerAction command = PlayerAction.valueOf(commandString);
+
+        GameState newState = this.gameBoard.doCommandAt(command, xCoordinateIndex, yCoordinateIndex);
+        this.gameBoard.addBombsToBoard();
+
+        this.setCurrentState(newState);
+        // Put bombs on the board
+        // this.gameBoard.addBombsToBoard();
+    }
+
+    public void handleMove()
+    {
+        this.printInputMessage();
         int xCoordinateIndex = sc.nextInt() - 1;
 
         int yCoordinateIndex = sc.nextInt() - 1;
@@ -59,26 +78,13 @@ public class Minesweeper {
         String commandString = sc.next().toUpperCase();
         PlayerAction command = PlayerAction.valueOf(commandString);
 
-        this.gameBoard.doCommandAt(command, xCoordinateIndex, yCoordinateIndex);
-        this.gameBoard.addBombsToBoard();
-        // Put bombs on the board
-        // this.gameBoard.addBombsToBoard();
+        GameState newState = this.gameBoard.doCommandAt(command, xCoordinateIndex, yCoordinateIndex);
+        this.setCurrentState(newState);
     }
-
-    public void handleMove()
+    private void printInputMessage()
     {
         System.out.println("Set/unset mines marks or claim a cell as free: ");
-        int xCoordinate = sc.nextInt() - 1;
-
-        int yCoordinate = sc.nextInt() - 1;
-
-        String command = sc.next();
-
-        TwoDimPoint point = this.gameBoard.getPointAt(xCoordinate, yCoordinate);
-        point.toggleIsExplored();
-        System.out.println("X: " + point.getX() + " Y: " + point.getY());
     }
-
     public Board getGameBoard() {
         return gameBoard;
     }

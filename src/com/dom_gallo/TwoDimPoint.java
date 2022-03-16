@@ -10,6 +10,7 @@ public class TwoDimPoint
     public boolean isBomb;
     public boolean isMarked;
     public boolean isExplored;
+    private int numOfBombsSurrounding = 0;
 
     public TwoDimPoint(int x, int y)
     {
@@ -83,19 +84,20 @@ public class TwoDimPoint
 
     public String getValue()
     {
+
         return value;
     }
-    public boolean isMarked()
+    public boolean getIsMarked()
     {
         return this.isMarked;
     }
-    public boolean isBomb()
+    public void toggleIsBomb()
     {
-        return this.isBomb;
+        this.isBomb = true;
     }
     public boolean isBombAndMarked()
     {
-        return this.isMarked() && this.isBomb();
+        return this.isMarked && this.isBomb;
     }
     public void toggleIsMarked()
     {
@@ -103,7 +105,13 @@ public class TwoDimPoint
     }
     public void toggleIsExplored()
     {
-        this.isExplored = !this.isExplored;
+        this.isExplored = true;
+        int numOfSurroundingBombs = this.getNumOfBombsSurrounding();
+        if (isExplored && numOfSurroundingBombs > 0)
+        {
+            this.setValue(String.valueOf(numOfSurroundingBombs));
+            return;
+        }
         this.setValue("/");
 
     }
@@ -112,7 +120,19 @@ public class TwoDimPoint
         this.value = val;
     }
     public void setAsBomb(){
+        this.toggleIsBomb();
         this.setValue("X");
         this.isMarked = true;
+    }
+    public int getNumOfBombsSurrounding() {
+        return numOfBombsSurrounding;
+    }
+
+    public void setNumOfBombsSurrounding(int numOfBombsSurrounding) {
+        this.numOfBombsSurrounding = numOfBombsSurrounding;
+    }
+    public String toString()
+    {
+        return String.valueOf("X:"+this.getX()+" Y:"+this.getY()+" isBomb:"+this.isBomb+" numOfBombsSurround:"+this.getNumOfBombsSurrounding());
     }
 }
