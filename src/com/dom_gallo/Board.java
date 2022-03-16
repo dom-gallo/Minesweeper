@@ -127,7 +127,7 @@ public class Board {
                         {
                             point.toggleIsExplored();
                         }
-                        point.toggleIsExplored();
+//                        point.toggleIsExplored();
                         exploreBoard(point);
                         break;
                     }
@@ -143,33 +143,36 @@ public class Board {
     {
         ArrayDeque<TwoDimPoint> pointQueue = new ArrayDeque<TwoDimPoint>();
         pointQueue.addLast(startingPoint);
+
         while (pointQueue.size() > 0 )
         {
-            TwoDimPoint pointToExplore = pointQueue.removeFirst();
+            //Take next point out of queue
+            //check if the point is a location surrounding a bomb, or a free space.
+            // if it is a location surrounding a bomb, then toggleIsExplored, and do not add any more points to the queue.
+            // if the location is a free space, toggleIsExplored and add surrounding points to the queue.
 
-            ArrayList<TwoDimPoint> surroundingPoints = pointToExplore.getPointsSurrounding(this);
+            TwoDimPoint p = pointQueue.removeFirst();
 
-            for (TwoDimPoint surroundingPoint: surroundingPoints)
+            System.out.println(p.toString());
+
+            if (p.isBomb || p.isExplored)
             {
-                if (surroundingPoint.isBomb) // If surrounding point is a bomb, do nothing.
-                {
-                    System.out.println("Found a bomb at " + surroundingPoint.toString());
-                    continue;
-                }
-                if (surroundingPoint.getNumOfBombsSurrounding() > 0) // If surrounding point has n > 0 bombs around it, we mark that on the game board.
-                {
-                    System.out.println("Found a bomb-surrounding point " + surroundingPoint.toString());
-                    surroundingPoint.toggleIsExplored();
-                    break;
-                }
-                // If a surrounding point is just a free space, then we toggle it as explored and move on.
-                surroundingPoint.toggleIsExplored();
-                if (!surroundingPoint.isExplored)
-                {
-                    pointQueue.addLast(surroundingPoint);
-                }
+                continue;
             }
+            if (p.getNumOfBombsSurrounding() > 0)
+            {
+                p.toggleIsExplored();
+                continue;
+            }
+            p.toggleIsExplored();
+            ArrayList<TwoDimPoint> surroundingPointArray = p.getPointsSurrounding(this);
 
+
+            for (TwoDimPoint sPoint: surroundingPointArray)
+            {
+                pointQueue.addLast(sPoint);
+                System.out.println("exploreBoard called.");
+            }
         }
     }
 
