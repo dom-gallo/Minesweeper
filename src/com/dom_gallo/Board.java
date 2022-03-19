@@ -73,25 +73,45 @@ public class Board {
     private void identifyAndUpdateLocationsSurroundingBombs()
     {
         // For all bombs on the board
-        for (TwoDimPoint bomb: this.bombLocations)
+//        for (TwoDimPoint bomb: this.getBombLocations())
+//        {
+//            ArrayList<TwoDimPoint> pointsAroundBomb = bomb.getPointsSurrounding(this);
+//            // Find the points around that bomb
+//            // If a surrounding point is a bomb, do nothing
+//            // If a surrounding point is a free space, update the value at that point
+//            // to the number of bombs that surround it
+//            for (TwoDimPoint adjacentPoint: pointsAroundBomb)
+//            {
+//                // If a surrounding point is a bomb
+//                if (adjacentPoint.isBomb)
+//                {
+//                    continue;
+//                } else
+//                {
+//                    adjacentPoint.incrementNumOfBombsSurrounding();
+//                }
+//            }
+//        }
+
+        // Less efficient solution
+        for (int i = 0; i < this.getNumOfColumns(); i++)
         {
-            ArrayList<TwoDimPoint> pointsAroundBomb = bomb.getPointsSurrounding(this);
-            // Find the points around that bomb
-            // If a surrounding point is a bomb, do nothing
-            // If a surrounding point is a free space, update the value at that point
-            // to the number of bombs that surround it
-            for (TwoDimPoint adjacentPoint: pointsAroundBomb)
+            for (int j = 0; j < this.getNumOfRows(); j++)
             {
-                // If a surrounding point is a bomb
-                if (adjacentPoint.isBomb)
+                TwoDimPoint point = this.getPointAt(i, j);
+
+                ArrayList<TwoDimPoint> surroundSpots = point.getPointsSurrounding(this);
+
+                for (TwoDimPoint surroundingSpot: surroundSpots)
                 {
-                    continue;
-                } else
-                {
-                    adjacentPoint.setNumOfBombsSurrounding(adjacentPoint.getNumOfBombsSurrounding() + 1);
+                    if (surroundingSpot.isBomb)
+                    {
+                        point.incrementNumOfBombsSurrounding();
+                    }
                 }
             }
         }
+
     }
     public void print()
     {

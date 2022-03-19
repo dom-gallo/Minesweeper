@@ -101,8 +101,15 @@ public class TwoDimPoint
     }
     public void toggleIsMarked()
     {
+        System.out.println("isMarked: " + this.isMarked);
         this.isMarked = !this.isMarked;
-        this.setValue("*");
+        if (this.isMarked)
+        {
+            this.setValue("*");
+        } else {
+            this.setValue(".");
+        }
+        System.out.println("Value of this point is: " + this.getValue());
     }
     public void toggleIsExplored()
     {
@@ -124,7 +131,7 @@ public class TwoDimPoint
     public void setAsBomb(){
         this.toggleIsBomb();
         this.setValue(".");
-        this.isMarked = true;
+//        this.isMarked = true;
     }
     public int getNumOfBombsSurrounding() {
         return numOfBombsSurrounding;
@@ -151,5 +158,9 @@ public class TwoDimPoint
         {
             this.setValue("X");
         }
+    }
+    public void incrementNumOfBombsSurrounding()
+    {
+        this.setNumOfBombsSurrounding(this.getNumOfBombsSurrounding() + 1);
     }
 }
