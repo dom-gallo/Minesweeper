@@ -11,7 +11,7 @@ public class TwoDimPoint
     public boolean isMarked;
     public boolean isExplored;
     private int numOfBombsSurrounding = 0;
-
+    private boolean isInitialMove = false;
     public TwoDimPoint(int x, int y)
     {
         this.x = x;
@@ -102,6 +102,7 @@ public class TwoDimPoint
     public void toggleIsMarked()
     {
         this.isMarked = !this.isMarked;
+        this.setValue("*");
     }
     public void toggleIsExplored()
     {
@@ -112,6 +113,7 @@ public class TwoDimPoint
             this.setValue(String.valueOf(numOfSurroundingBombs));
             return;
         }
+
         this.setValue("/");
 
     }
@@ -121,7 +123,7 @@ public class TwoDimPoint
     }
     public void setAsBomb(){
         this.toggleIsBomb();
-        this.setValue("X");
+        this.setValue(".");
         this.isMarked = true;
     }
     public int getNumOfBombsSurrounding() {
@@ -134,5 +136,20 @@ public class TwoDimPoint
     public String toString()
     {
         return String.valueOf("X:"+this.getX()+" Y:"+this.getY()+" isBomb:"+this.isBomb+" numOfBombsSurround:"+this.getNumOfBombsSurrounding());
+    }
+    public void setIsInitialMove()
+    {
+        this.isInitialMove = true;
+    }
+    public boolean getIsInitialMove()
+    {
+        return this.isInitialMove;
+    }
+    public void revealBombForLose()
+    {
+        if (this.isBomb)
+        {
+            this.setValue("X");
+        }
     }
 }

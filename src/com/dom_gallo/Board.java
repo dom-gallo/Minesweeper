@@ -48,6 +48,12 @@ public class Board {
                 for (int j =0; j < this.numOfColumns; j++)
                 {
                     TwoDimPoint currentPoint = this.getPointAt(j, i);
+
+                    if (currentPoint.getIsInitialMove())
+                    {
+                        continue;
+                    }
+
                     if (Math.random() * 10 < 1 && !currentPoint.getValue().equalsIgnoreCase("X"))
                     {
                         if (getNumOfMines() == minesAdded)
@@ -120,7 +126,7 @@ public class Board {
                         }
                         if (point.isBomb)
                         {
-                            newGameState = GameState.EXIT;
+                            newGameState = GameState.LOSE;
                             break;
                         }
                         if (point.getNumOfBombsSurrounding() > 0)
@@ -133,6 +139,7 @@ public class Board {
                     }
             case MINE ->
                     {
+                        point.toggleIsMarked();
                         break;
                     }
         }
@@ -142,21 +149,20 @@ public class Board {
     private void exploreBoard(TwoDimPoint startingPoint)
     {
         ArrayDeque<TwoDimPoint> pointQueue = new ArrayDeque<TwoDimPoint>();
-        pointQueue.addLast(startingPoint);
+        pointQueue.add(startingPoint);
 
         while (pointQueue.size() > 0 )
         {
-            //Take next point out of queue
-            //check if the point is a location surrounding a bomb, or a free space.
+            // Take next point out of queue
+            // check if the point is a location surrounding a bomb, or a free space.
             // if it is a location surrounding a bomb, then toggleIsExplored, and do not add any more points to the queue.
             // if the location is a free space, toggleIsExplored and add surrounding points to the queue.
 
-            TwoDimPoint p = pointQueue.removeFirst();
-
-            System.out.println(p.toString());
+            TwoDimPoint p = pointQueue.remove();
 
             if (p.isBomb || p.isExplored)
             {
+
                 continue;
             }
             if (p.getNumOfBombsSurrounding() > 0)
@@ -164,14 +170,14 @@ public class Board {
                 p.toggleIsExplored();
                 continue;
             }
-            p.toggleIsExplored();
-            ArrayList<TwoDimPoint> surroundingPointArray = p.getPointsSurrounding(this);
 
+            p.toggleIsExplored();
+
+            ArrayList<TwoDimPoint> surroundingPointArray = p.getPointsSurrounding(this);
 
             for (TwoDimPoint sPoint: surroundingPointArray)
             {
-                pointQueue.addLast(sPoint);
-                System.out.println("exploreBoard called.");
+                pointQueue.add(sPoint);
             }
         }
     }
@@ -196,5 +202,16 @@ public class Board {
 
     public int getNumOfColumns() {
         return numOfColumns;
+    }
+    public ArrayList<TwoDimPoint> getBombLocations()
+    {
+        return this.bombLocations;
+    }
+    public void revealBombLocations(){
+        for (TwoDimPoint bomb: this.getBombLocations())
+        {
+            bomb.revealBombForLose();
+        }
+
     }
 }
